@@ -1,0 +1,7 @@
+.terraform
+terraform.tfstate.backup
+.terraform.lock.hcl
+*.zip
+*.dist-info
+*.tf-disabled
+.DS_Store
