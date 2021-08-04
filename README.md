@@ -1,6 +1,8 @@
-# Customer Access Management
+# Bidnamic Technical Challenge
 
-Django Application to enable Feedzai Employees to manage customers access to Feedzai Documentation.
+Deploy the minimal flask app using Infrastructure as Code (IAC) technologies.
+
+Minimal Flask app -> https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application
 
 1. [Getting Started](#getting-started)
     1. [Prerequisites](#prerequisites)

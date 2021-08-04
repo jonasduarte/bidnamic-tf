@@ -42,7 +42,7 @@ resource "aws_instance" "app-server-1" {
   ami                         = data.aws_ssm_parameter.amzlinux.value
   instance_type               = var.instance-type
   key_name                    = aws_key_pair.bd-key.key_name
-  associate_public_ip_address = false
+  associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.app-sg.id]
   subnet_id                   = aws_subnet.public_az1.id
 
@@ -66,7 +66,7 @@ resource "aws_instance" "app-server-2" {
   ami                         = data.aws_ssm_parameter.amzlinux.value
   instance_type               = var.instance-type
   key_name                    = aws_key_pair.bd-key.key_name
-  associate_public_ip_address = false
+  associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.app-sg.id]
   subnet_id                   = aws_subnet.public_az2.id
 
