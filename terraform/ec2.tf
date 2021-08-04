@@ -50,15 +50,10 @@ resource "aws_instance" "app-server-1" {
     Name        = join("_", ["app_server_az1", upper(var.environment), var.code_version])
     Environment = upper(var.environment)
     Version     = var.code_version
+    Application = "Challenge"
   }
   depends_on = [aws_key_pair.bd-key, aws_route_table_association.public_az1]
 
-  provisioner "local-exec" {
-    command = <<EOF
-aws --profile ${var.profile} ec2 wait instance-status-ok --region ${var.region} --instance-ids ${self.id}
-ansible-playbook --extra-vars 'passed_in_hosts=tag_Name_${self.tags.Name}' ansible/flask-app.yml
-EOF
-  }
 }
 
 #Create EC2 (Application Server) on AZ2
@@ -74,13 +69,8 @@ resource "aws_instance" "app-server-2" {
     Name        = join("_", ["app_server_az2", upper(var.environment), var.code_version])
     Environment = upper(var.environment)
     Version     = var.code_version
+    Application = "Challenge"
   }
   depends_on = [aws_key_pair.bd-key, aws_route_table_association.public_az2]
 
-  provisioner "local-exec" {
-    command = <<EOF
-aws --profile ${var.profile} ec2 wait instance-status-ok --region ${var.region} --instance-ids ${self.id}
-ansible-playbook --extra-vars 'passed_in_hosts=tag_Name_${self.tags.Name}' ansible/flask-app.yml
-EOF
-  }
 }

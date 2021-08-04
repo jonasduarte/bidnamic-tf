@@ -13,6 +13,7 @@ Minimal Flask app -> https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-mi
         2. [Install pip3 packages](#install-pip3-packages)
         3. [AWS Credentials](#aWS-credentials)
         4. [Deploy Application](#deploy-application)
+        5. [Usage](#usage)
 
 
 
@@ -64,27 +65,26 @@ pip3 install awscli boto3
 ```
 
 ### AWS Credentials
-Terraform will use the aws profile "default", unless you pass a different one when invoking Terraform.
-
-Since it uses boto3, you need to export AWS Credentials variables.
-
-```bash
-export AWS_SECRET_KEY=Secret
-export AWS_ACCESS_KEY=Key
-```
+Terraform will use the aws profile "default". however you may use a different one. See -> [Usage](#usage)
 
 ### Deploy Application
 Inside the application root folder, execute the following command:
 ```bash
-terraform init
+python3 deploy-bd.py --aws-secret-key SECRET-KEY --aws-access-key ACCESS-KEY
 ```
 
-If you are using AWS profile "default", execute the following:
-```bash
-terraform apply
-```
+### Usage
 
-Or, if you want to use a different profile, execute the following (replace "AWSPROFILE" for the desired profile):
+For more info run it with the `-h` flag
+
 ```bash
-terraform apply -var="profile=AWSPROFILE"
+usage: deploy-bd.py [-h] [--version VERSION] [--profile PROFILE] --secret SECRET --access ACCESS
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --version VERSION  Input code version. (Default: latest)
+  --profile PROFILE  Input AWS Profile. (Default: default)
+  --secret SECRET    Input AWS Secret Key.
+  --access ACCESS    Input AWS Access Key.
+
 ```
