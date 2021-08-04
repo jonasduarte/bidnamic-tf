@@ -51,7 +51,7 @@ resource "aws_instance" "app-server-1" {
     Environment = upper(var.environment)
     Version     = var.code_version
   }
-  depends_on = [aws_key_pair.bd-key, aws_route_table_association.private_az1]
+  depends_on = [aws_key_pair.bd-key, aws_route_table_association.public_az1]
 
   provisioner "local-exec" {
     command = <<EOF
@@ -75,7 +75,7 @@ resource "aws_instance" "app-server-2" {
     Environment = upper(var.environment)
     Version     = var.code_version
   }
-  depends_on = [aws_key_pair.bd-key, aws_route_table_association.private_az2]
+  depends_on = [aws_key_pair.bd-key, aws_route_table_association.public_az2]
 
   provisioner "local-exec" {
     command = <<EOF
