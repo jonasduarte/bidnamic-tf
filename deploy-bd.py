@@ -53,8 +53,6 @@ def Ansible():
 
     Ansible_Command = "ansible-playbook --extra-vars 'passed_in_hosts=tag_Application_Challenge' " + Ansible_Dir + "/flask-app.yml"
 
-    print(Ansible_Command)
-
     Ansible_Command_Return = subprocess.Popen(Ansible_Command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=Ansible_Dir)
     output, error = Ansible_Command_Return.communicate()
     output = output.decode("utf-8")
