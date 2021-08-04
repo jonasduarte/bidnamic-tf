@@ -1,0 +1,91 @@
+---
+- hosts: "{{ passed_in_hosts }}"
+  become: yes
+  remote_user: ec2-user
+  become_user: root
+  tasks:
+    - name: Install Epel
+      command: amazon-linux-extras install -y epel
+
+    - name: Install Yum packages
+      yum:
+        name: "{{ item }}"
+      with_items:
+        - gcc
+        - python3-devel
+        - nginx
+
+    - name: Install uwsgi pip package
+      pip:
+        executable: pip3
+        name: "{{ item }}"
+      with_items:
+        - wheel
+        - uwsgi
+
+    - name: Creates app directory
+      file:
+        path: /var/bd-app/
+        group: nginx
+        owner: nginx
+        mode: 0774
+        state: directory
+
+    - name: Copy application
+      copy:
+        src: files/bd.py
+        dest: /var/bd-app/bd.py
+        owner: nginx
+        group: nginx
+        mode: 0644
+
+    - name: Creates application virtual environment
+      pip:
+        virtualenv: /var/bd-app/venv
+        virtualenv_command: /usr/bin/python3 -m venv
+        name: flask
+
+    - name: Creates uwsgi directory
+      file:
+        path: /etc/uwsgi/sites/
+        group: nginx
+        owner: nginx
+        mode: 0664
+        recurse: yes
+        state: directory
+
+    - name: Copy uwsgi configuration
+      copy:
+        src: files/bd-uwsgi.ini
+        dest: /etc/uwsgi/sites/bd-uwsgi.ini
+        owner: nginx
+        group: nginx
+        mode: 0644
+
+    - name: Copy uwsgi service configuration
+      copy:
+        src: files/uwsgi.service
+        dest: /etc/systemd/system/uwsgi.service
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Restart uwsgi service, also issue daemon-reload.
+      systemd:
+        state: restarted
+        daemon_reload: yes
+        name: uwsgi
+
+    - name: Copy Nginx configuration
+      copy:
+        src: files/bd.conf
+        dest: /etc/nginx/conf.d/bd.conf
+        owner: root
+        group: root
+        mode: 0664
+
+    - name: Restart Nginx and enable it.
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes

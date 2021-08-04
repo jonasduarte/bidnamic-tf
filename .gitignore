@@ -1,5 +1,5 @@
-.terraform
-terraform.tfstate.backup
+.terraform*
+terraform.tfstate*
 .terraform.lock.hcl
 *.zip
 *.dist-info
