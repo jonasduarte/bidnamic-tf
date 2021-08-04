@@ -30,12 +30,6 @@ variable "public_subnets" {
   default     = ["10.0.128.0/24", "10.0.129.0/24"]
 }
 
-variable "private_subnets" {
-  description = "Private subnets configuration, in these subnets we have ENIs with private addressing but with access to the Internet through a NAT Gateway."
-  type        = list(any)
-  default     = ["10.0.0.0/24", "10.0.1.0/24"]
-}
-
 variable "domain_name" {
   description = "The network main domain, this should be the top level domain only, the configuration will add further subdomains as described in confluence IT / Feedzai IT Cloud."
   type        = string
